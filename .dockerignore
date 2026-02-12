@@ -1,0 +1,10 @@
+node_modules
+dist
+compose.yml
+Dockerfile.mysql
+TODO.TODO
+README.md
+.git
+.dockerignore
+.gitignore
+.prettierrc
