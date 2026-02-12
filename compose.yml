@@ -5,16 +5,16 @@ services:
     ports:
       - 3306:3306
     environment:
-      - MYSQL_ROOT_PASSWORD=rootadm
-      - MYSQL_DATABASE=atividade-db
-      - MYSQL_USER=admin
-      - MYSQL_PASSWORD=rootadm
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
     networks:
       - backtier
     volumes:
       - db-data:/etc/data
 
-  app:
+  app:  
     build: 
       context: .
     ports:
