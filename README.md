@@ -14,6 +14,7 @@
 - **App**: Aplicação customizada visualiazadora de arquivos
 - **Network backtier**: Rede para comunicação entre containers
 - **Volume db-data**: Persistência de dados do MySQL
+- **.env**: Arquivo de dados sensiveis
 
 
 ## Variáveis de Ambiente
@@ -32,16 +33,13 @@
 O container `app` não possui variáveis de ambiente definidas no docker-compose.yml. Configure conforme necessário para sua aplicação.
 
 
-
-
-
-
-
 # Como utilizar
 
 Baixe o projeto
-Em sua pasta raiz, abra um terminal e digite 
-Utilize os comandos abaixo conforme necessidade:
+
+Mude as senhas e usuarios do arquivo **.env** conforme necessidade
+
+Em sua pasta raiz, abra um terminal e utilize os comandos abaixo conforme necessidade:
 
 ```bash
 # Construir e iniciar em modo detached (background)
