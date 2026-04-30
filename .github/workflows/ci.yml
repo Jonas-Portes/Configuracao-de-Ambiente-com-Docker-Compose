@@ -31,19 +31,43 @@ jobs:
         run: |
           SHA=$(echo $GITHUB_SHA | head -c7)
           echo "sha=$SHA" >> $GITHUB_OUTPUT
-        
-      - name: Login to Docker Hub
-        uses: docker/login-action@v4
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      -
-        name: Build and push
-        uses: docker/build-push-action@v7
+          
+
+      - name: Configure AWS Credentials for China region audience
+        uses: aws-actions/configure-aws-credentials@v6.1.0
         with:
-          push: true
-          tags: jonasportes/rocket-ci-api:${{steps.generate_tag.outputs.sha}},jonasportes/rocket-ci-api:latest
+          audience: sts.amazonaws.com.cn
+          aws-region: us-east-2
+          role-to-assume: ${{ secrets.AWS_ROLE }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      #- name: Build, tag, and push docker image to Amazon ECR
+      #  env:
+      #    REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+      #    REPOSITORY: my-ecr-repo
+      #    IMAGE_TAG: ${{ steps.generate_tag.outputs.sha }}
+      #  run: |
+      #    docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
+      #    docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+
+
+
+      #- name: Login to Docker Hub
+      #  uses: docker/login-action@v4
+      #  with:
+      #    username: ${{ secrets.DOCKERHUB_USERNAME }}
+      #    password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      #-
+      #  name: Build and push
+      #  uses: docker/build-push-action@v7
+      #  with:
+      #    push: true
+      #    tags: jonasportes/rocket-ci-api:${{steps.generate_tag.outputs.sha}},jonasportes/rocket-ci-api:latest
 
 
       # - name: Build docker image
@@ -53,6 +77,3 @@ jobs:
       #   run: docker push jonasportes/rocket-ci-api:${{steps.generate_tag.outputs.sha}}
 
 
-
-#docker tag local-image:tagname new-repo:tagname
-#docker push new-repo:tagname
