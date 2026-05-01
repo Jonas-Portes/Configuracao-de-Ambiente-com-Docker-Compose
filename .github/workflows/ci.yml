@@ -34,10 +34,9 @@ jobs:
 
           
 
-      - name: Configure AWS Credentials for China region audience
+      - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v6.1.0
         with:
-          audience: sts.amazonaws.com.cn
           aws-region: us-east-2
           role-to-assume: ${{ secrets.AWS_ROLE }}
 
