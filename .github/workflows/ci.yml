@@ -49,6 +49,7 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v2
 
       - name: Build, tag, and push docker image to Amazon ECR
+        id: build-docker-image
         env:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           REPOSITORY: rocketseat-ci
@@ -56,4 +57,35 @@ jobs:
         run: |
           docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+          IMAGE=$(echo $REGISTRY/$REPOSITORY:$IMAGE_TAG)
+          echo "image=$IMAGE" >> $GITHUB_OUTPUT
+
+      - name: Deploy to App Runner
+        uses: awslabs/amazon-app-runner-deploy@main
+        with:
+          service: rocketseat-api
+          image: ${{steps.build-docker-image.outputs.image}}
+          access-role-arn: ${{ secrets.ACCESS_ROLE_ARN }}
+          region: us-east-2
+          cpu : 1
+          memory : 1
+          port: 3000
+
+
+
+          source-connection-arn: ${{ secrets.AWS_CONNECTION_SOURCE_ARN }}
+          repo: https://github.com/${{ github.repository }}
+          branch: ${{ github.ref }}
+          runtime: NODEJS_16
+          build-command: npm install
+          start-command: npm start
+          # Deprecated: wait-for-service-stability: true
+          # The new way to control service stability timeout
+          wait-for-service-stability-seconds: 600
+          instance-role-arn: ${{ secrets.INSTANCE_ROLE_ARN }}
+          tags: >
+            { "env": "test" }
+      
+      - name: App Runner URL
+        run: echo "App runner URL ${{ steps.deploy-apprunner.outputs.service-url }}" 
 
