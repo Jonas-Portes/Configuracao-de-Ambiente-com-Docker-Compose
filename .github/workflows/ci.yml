@@ -70,21 +70,6 @@ jobs:
           cpu : 1
           memory : 1
           port: 3000
-
-
-
-          source-connection-arn: ${{ secrets.AWS_CONNECTION_SOURCE_ARN }}
-          repo: https://github.com/${{ github.repository }}
-          branch: ${{ github.ref }}
-          runtime: NODEJS_16
-          build-command: npm install
-          start-command: npm start
-          # Deprecated: wait-for-service-stability: true
-          # The new way to control service stability timeout
-          wait-for-service-stability-seconds: 600
-          instance-role-arn: ${{ secrets.INSTANCE_ROLE_ARN }}
-          tags: >
-            { "env": "test" }
       
       - name: App Runner URL
         run: echo "App runner URL ${{ steps.deploy-apprunner.outputs.service-url }}" 
