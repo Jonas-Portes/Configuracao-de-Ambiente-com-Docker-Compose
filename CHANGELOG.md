@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/Jonas-Portes/DockerCompose.ci.api/compare/v1.0.0...v1.0.1) (2026-05-21)
+
+
+### Bug Fixes
+
+* permissions ([e635676](https://github.com/Jonas-Portes/DockerCompose.ci.api/commit/e635676fd01962a269c8c00bdabe3f2d3997b921))
+
 # 1.0.0 (2026-05-21)
 
 
