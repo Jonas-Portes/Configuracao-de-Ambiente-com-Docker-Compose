@@ -71,6 +71,3 @@ jobs:
           memory : 2
           port: 3000
       
-      - name: App Runner URL
-        run: echo "App runner URL ${{ steps.deploy-apprunner.outputs.service-url }}" 
-
