@@ -56,7 +56,6 @@ jobs:
           IMAGE_TAG: ${{ steps.generate_tag.outputs.sha }}
         run: |
           docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG -t $REGISTRY/$REPOSITORY:latest .
-          docker tag $REGISTRY/$REPOSITORY:$IMAGE_TAG $REGISTRY/$REPOSITORY:latest
           docker image push -a $REGISTRY/$REPOSITORY:latest
           IMAGE=$(echo $REGISTRY/$REPOSITORY:$IMAGE_TAG)
           echo "image=$IMAGE" >> $GITHUB_OUTPUT
